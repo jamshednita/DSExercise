@@ -168,4 +168,9 @@ public class MainApp {
 		return Math.max(depthOfOddLeaf(node.getLeft(), level+1), depthOfOddLeaf(node.getRight(), level+1));
 	}
 
+	static int oddEvenSumDiff(Node node){
+		if(node==null) return 0;
+		
+		return node.getData() - oddEvenSumDiff(node.getLeft()) - oddEvenSumDiff(node.getRight());
+	}
 }
