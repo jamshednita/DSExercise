@@ -33,7 +33,7 @@ public class MainApp {
 		root.setLeft(left);
 		root.setRight(right);
 		doubleTree(root);
-		System.out.println(root.getRight().getLeft().getData());*/
+		System.out.println(root.getRight().getLeft().getData());
 		
 		Node root = new Node(1);
 		Node left = new Node(2);
@@ -77,7 +77,38 @@ public class MainApp {
 		
 		removeKLess(root, 0, 20);
 		
-		System.out.println(root.getData());
+		System.out.println(root.getData());*/
+		
+		Node root = new Node(1);
+		Node left = new Node(2);
+		Node right = new Node(3);
+		
+		
+		Node left1 = new Node(4);
+		Node right1 = new Node(5);
+		
+		Node left2 = new Node(6);
+		Node right2 = new Node(7);
+		Node left3 = new Node(8);
+		Node right3 = new Node(9);
+		Node left4 = new Node(10);
+		Node right4 = new Node(11);
+		
+		root.setLeft(left);
+		root.setRight(right);
+		left.setLeft(left1);
+
+		right.setLeft(right1);
+		right.setRight(left2);
+		
+		right1.setRight(right2);
+		left2.setRight(left3);
+		right2.setLeft(right3);
+		
+		left3.setRight(left4);
+		left4.setLeft(right4);
+		
+		System.out.println(depthOfOddLeaf(root, 1));
 	}
 	
 	public static boolean isIpAddress(String host) {
@@ -125,6 +156,16 @@ public class MainApp {
 			return true;
 		}
 		return false;
+	}
+	
+	public static int depthOfOddLeaf(Node node, int level){
+		if(node == null) return 0;
+		
+		if(node.getLeft() == null && node.getRight() == null && (level&1)!=0 ){
+			return level;
+		}
+		
+		return Math.max(depthOfOddLeaf(node.getLeft(), level+1), depthOfOddLeaf(node.getRight(), level+1));
 	}
 
 }
