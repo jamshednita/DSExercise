@@ -215,6 +215,7 @@ public class MainApp {
 		return node.getData() - oddEvenSumDiff(node.getLeft()) - oddEvenSumDiff(node.getRight());
 	}
 	
+	// INCORRECT Implementation
 	static int nearestLeaf(Node node, Node k){
 		if(node == null) return -1;
 		
@@ -234,7 +235,15 @@ public class MainApp {
 			return Math.min(leftRes, nearestDown(node.getRight()));
 		}
 		
-		return -1; // INCORRECT
+		return -1; 
+	}
+	// INCORRECT Implementation
+	private static int nearestDown(Node node) {
+		if(node == null) return Integer.MAX_VALUE;
+		
+		if(node.getLeft() == null && node.getRight() == null) return 0;
+		
+		return 1+ Math.min(nearestDown(node.getLeft()), nearestDown(node.getLeft()));
 	}
 	
 	static int nearestLeafUtil(Node node, int k, Min m){
@@ -279,15 +288,7 @@ public class MainApp {
 		nearestDown(node.getLeft(), m, level+1);
 		nearestDown(node.getRight(), m, level+1);
 	}
-
-	private static int nearestDown(Node node) {
-		if(node == null) return Integer.MAX_VALUE;
-		
-		if(node.getLeft() == null && node.getRight() == null) return 0;
-		
-		return 1+ Math.min(nearestDown(node.getLeft()), nearestDown(node.getLeft()));
-	}
-
+	
 	static void diagonalSumUtil(Node node, int[] arr, int diag){
 		if(node == null) return;
 		
