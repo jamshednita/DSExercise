@@ -1,3 +1,4 @@
+package com.binarytree;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -75,11 +76,11 @@ public class MainApp {
 		left4.setRight(right4);
 		left7.setLeft(right8);
 		
-		removeKLess(root, 0, 20);
+		removeKLess(root, 0, 100);
 		
 		System.out.println(root.getData());*/
 		
-		Node root = new Node(1);
+		/*Node root = new Node(1);
 		Node left = new Node(2);
 		Node right = new Node(3);
 		
@@ -109,6 +110,46 @@ public class MainApp {
 		left4.setLeft(right4);
 		
 		System.out.println(depthOfOddLeaf(root, 1));
+		System.out.println(oddEvenSumDiff(root));*/
+		
+		Node nodeA = new Node((int)'A'); //65
+		Node nodeB = new Node((int)'B'); //66
+		Node nodeC = new Node((int)'C'); //67
+		Node nodeD = new Node((int)'D'); //68
+		
+		Node nodeE = new Node((int)'E'); //69
+		Node nodeF = new Node((int)'F'); //70
+		Node nodeG = new Node((int)'G'); //71
+		Node nodeH = new Node((int)'H'); //72
+		
+		Node nodeI = new Node((int)'I'); //73
+		Node nodeJ = new Node((int)'J'); //74
+		Node nodeK = new Node((int)'K'); //75
+		
+		nodeA.setLeft(nodeB);
+		nodeA.setRight(nodeC);
+		
+		nodeC.setLeft(nodeE);
+		nodeC.setRight(nodeF);
+		
+		nodeE.setLeft(nodeG);
+		nodeG.setLeft(nodeI);
+		nodeG.setRight(nodeJ);
+		
+		nodeF.setRight(nodeH);
+		nodeH.setLeft(nodeK);
+		
+		Min m= new Min();
+		
+		System.out.println(" Closest Leaf at ::  "+nearestLeafUtil(nodeA, (int)'G', m));
+		System.out.println(m.min + " ===== " +(char)m.minNode.getData());
+		int[] dArr = new int[50];
+		diagonalSumUtil(nodeA, dArr, 0);
+		int i=0;
+		while(dArr[i]>0){
+			System.out.println(dArr[i++]);
+		}
+		
 	}
 	
 	public static boolean isIpAddress(String host) {
@@ -167,10 +208,92 @@ public class MainApp {
 		
 		return Math.max(depthOfOddLeaf(node.getLeft(), level+1), depthOfOddLeaf(node.getRight(), level+1));
 	}
-
+	
 	static int oddEvenSumDiff(Node node){
 		if(node==null) return 0;
 		
 		return node.getData() - oddEvenSumDiff(node.getLeft()) - oddEvenSumDiff(node.getRight());
+	}
+	
+	static int nearestLeaf(Node node, Node k){
+		if(node == null) return -1;
+		
+		if(node == k){
+			return nearestDown(node);
+		}
+		
+		int leftRes = nearestLeaf(node.getLeft(), k);
+		
+		if(leftRes >= 0){
+			return Math.min(leftRes, nearestDown(node.getRight()));
+		}
+		
+		int rightRes = nearestLeaf(node.getLeft(), k);
+		
+		if(leftRes >= 0){
+			return Math.min(leftRes, nearestDown(node.getRight()));
+		}
+		
+		return -1; // INCORRECT
+	}
+	
+	static int nearestLeafUtil(Node node, int k, Min m){
+		if(node==null){
+			return -1;
+		}
+		
+		if(node.getData() == k){
+			nearestDown(node,m,0);
+			return 1;
+		}
+		
+		int l=nearestLeafUtil(node.getLeft(), k, m);
+		if(l>0){
+			nearestDown(node.getRight(), m, l+1);
+			return l+1;
+		}
+		
+		int r=nearestLeafUtil(node.getRight(), k, m);
+		if(r>0){
+			nearestDown(node.getLeft(), m, r+1);
+			return r+1;
+		}
+		
+		return -1;
+	}
+
+	private static void nearestDown(Node node, Min m, int level) {
+
+		if(node == null){
+			return;
+		}
+		
+		if(node.getLeft() == null && node.getRight() == null){
+			if(m.min > Math.min(m.min, level)){
+				m.min = Math.min(m.min, level);
+				m.minNode = node;
+			}
+			return;
+		}
+		
+		nearestDown(node.getLeft(), m, level+1);
+		nearestDown(node.getRight(), m, level+1);
+	}
+
+	private static int nearestDown(Node node) {
+		if(node == null) return Integer.MAX_VALUE;
+		
+		if(node.getLeft() == null && node.getRight() == null) return 0;
+		
+		return 1+ Math.min(nearestDown(node.getLeft()), nearestDown(node.getLeft()));
+	}
+
+	static void diagonalSumUtil(Node node, int[] arr, int diag){
+		if(node == null) return;
+		
+		arr[diag]+=node.getData();
+		
+		diagonalSumUtil(node.getRight(), arr, diag);
+		diagonalSumUtil(node.getLeft(), arr, diag+1);
 	}
 }
