@@ -50,7 +50,7 @@ public class RegExApp {
 		  
 		System.out.println(b1+" "+b2+" "+b3); */ 
 		
-		System.out.println(Pattern.matches("[a-zA-Z0-9]*", "Jamshed")); // TRUE for [a-zA-Z0-9]{+}, [a-zA-Z0-9]*, [a-zA-Z0-9]{0,}
+		/*System.out.println(Pattern.matches("[a-zA-Z0-9]*", "Jamshed")); // TRUE for [a-zA-Z0-9]{+}, [a-zA-Z0-9]*, [a-zA-Z0-9]{0,}
 		System.out.println(Pattern.matches("[+][0-9]{2}[-][0-9]{10}", "+91 9862638970"));
 		System.out.println(Pattern.matches("[a-zA-Z0-9]*[.][a-zA-Z0-9]*[@][a-zA-Z]*[.][a-zA-Z]*", "jamshed.ansari@gmail.moc"));
 		
@@ -59,6 +59,9 @@ public class RegExApp {
 		System.out.println(Pattern.matches("[789]\\d{9}", "8853038949"));//true  
 		
 		System.out.println(Pattern.matches("[789]{1}\\d{9}", "3853038949"));//false (starts from 3)  
+		*/		
+		System.out.println(Pattern.matches("^[0-9]{5}-(NEU|PHY|GEN)$", "12345-NEU"));
+		System.out.println(Pattern.matches("[0-9]{5}-(NEU|PHY|GEN)", "12345-NEU"));
 	}
 
 }
