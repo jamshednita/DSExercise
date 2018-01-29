@@ -443,6 +443,60 @@ public class BinarySearchTree {
 		
 		return root;
 	}
+	/**
+	 * 
+	 * Description - A program to check if a binary tree is BST or not. O(n)
+	 * 
+	 * @param root - Root node of the tree which needs to be checked.
+	 * @return
+	 */
+	public static boolean isBST(Node root){
+		CIndex prev=new CIndex();
+		prev.index=Integer.MIN_VALUE;
+		
+		return isBSTUtil(root, prev);
+	}
+	private static boolean isBSTUtil(Node root, CIndex prev){
+		if(root == null) return true;
+		
+		boolean isLeftBST = isBSTUtil(root.getLeft(), prev);
+		
+		if(prev.index>root.getData()){
+			return false;
+		}else{
+			prev.index=root.getData();
+		}
+		
+		return isLeftBST && isBSTUtil(root.getRight(), prev);
+	}
+	/**
+	 * 
+	 * Description - Given root of binary search tree and K as input, find K-th smallest element in BST. <=O(n)
+	 * 
+	 * @param root - Root node of BST.
+	 * @param k - kth smallest indicator.
+	 * @return
+	 */
+	public static int kthSmallest(Node root, int k){
+		CIndex curr=new CIndex();
+		curr.index=k;
+		kthSmallestUtil(root, curr);
+		return curr.ptr.getData();
+	}
+	private static int kthSmallestUtil(Node root, CIndex k){
+		if(root == null) return 0;
+		int foundInLeft = kthSmallestUtil(root.getLeft(), k);
+		k.index--;
+		if(k.index==0){
+			
+			if(k.ptr==null)
+				k.ptr=root;
+			return root.getData();
+		}
+		
+		return (k.index==0)?foundInLeft:kthSmallestUtil(root.getRight(), k);		
+	}
+	
 	public static void main(String[] args) {
 		/*int []pre = {10,5,1,7,40,50};
 		
@@ -477,6 +531,13 @@ public class BinarySearchTree {
 		
 		Node lvlNode = buildBST4mLvlOdrTraversal(lvl);
 		System.out.println(lvlNode.getData());
+		//lvlNode.setData(lvlNode.getData()-5);
+		//lvlNode.getLeft().setData(lvlNode.getLeft().getData()-10);
+		boolean flag = isBST(lvlNode);
+		System.out.println(flag);
+		
+		int kthSmall=kthSmallest(lvlNode, 4);
+		System.out.println(kthSmall);
 	}
 	
 }
